@@ -1,7 +1,1 @@
 13/10/18     18:00   18:15   put the first real entry in diary.txt (delete this line!)
-15/10/18 	 19:00	  22:00  playing with css files and html styling of index page and sign up/login page
-18/10/18	 11:00	  13:00   tutorial and labs ask about how to fetch api with data and the balance of functions and style
-18/10/18	 19:00	  00:00  combine login and sign up form into a same page
-19/10/18  	 10:00   12:00	  trying to get and fetch datas to api
-19/10/18	 19:00   00:00  Get response from api for login request  
-22/10/18	 17:00	  00:00  finish login/signup homepage page and gets data from auth/login auth/signup user/
