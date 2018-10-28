@@ -9,23 +9,21 @@
 	console.log(localStorage.getItem("token"));
 	var obj = parseURLParams(url);
 	console.log(obj['token'][0]);
-	console.log(obj['username'][0]);
+	console.log(obj['name'][0]);
 	console.log(localStorage.getItem("token"));
 	
-	var username = obj['username'][0];
+	var guest = obj['name'][0];
+	var username = localStorage.getItem("host");
 	var token = obj['token'][0];
 	var home = "http://localhost:8080/page?username=" + username + "&token=" + token; 
 	document.getElementById("home").setAttribute("href",home);
-	document.getElementById("setting").addEventListener("click",setting);
-	document.getElementById("username").innerHTML = username;
+	document.getElementById("username").innerHTML = guest;
 	document.getElementById("user").innerHTML = username;
-	document.getElementById("plus").addEventListener("click",postPost);
-	document.getElementById("submit").addEventListener("click",send);
+	var links = '/homepage?username=' + username + '&token=' +token;
+	document.getElementById("user").setAttribute("href",links);
 	document.getElementById("logout").addEventListener("click",clear);
-//	document.getElementById("pic").setAttribute("onchange","previewFile()");
-	
 	GetPost(token);
-	
+
 	function parseURLParams(url) {
 		var queryStart = url.indexOf("?") + 1,
 			queryEnd   = url.indexOf("#") + 1 || url.length + 1,
@@ -46,12 +44,12 @@
 		return parms;
 	}
 	
-	
 	function GetPost(token){
 		var headers = new Headers();
 		headers.append('Authorization',token);
 		console.log(headers);
-		const rawResponse = fetch('http://localhost:5000/user/', {
+		var urls = 'http://localhost:5000/user/?username=' + guest;
+		const rawResponse = fetch(urls, {
 				method: 'GET',
 				headers: new Headers({
 						'Authorization': 'Token '+ token, 
@@ -453,74 +451,19 @@
 		}
 	}
 	
-	function postPost(){
-		console.log(this.id);
-		document.getElementById('id01').style.display='block';
-	}
-	
-	function send(){
-		console.log(this.id);
-		var pic = document.getElementById("pic");
-		var descri = document.getElementById("txt").value;
-		console.log("picture url := " + pic);
-		console.log("description := " + descri);
-		
-		if(pic == ""){
-			alert("Please select a png file.");
-		}
-		else if(descri == ""){
-			alert("Description could not be empty.");
-		}
-		else{
-			console.log("picture url := " + pic);
-			console.log("description := " + descri);
-			var file = localStorage.getItem("picture");
-			console.log(file);
-			var filepath = file.slice(22, file.length);
-			console.log(filepath);
-			const info = {
-				"description_text": descri,
-				"src" : filepath
-			}
-			
-			fetch('http://localhost:5000/post/', {
-				method: 'POST',
-				headers: {
-				  'Authorization': 'Token '+ token, 
-				  'Accept': 'application/json',
-				  'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(info)
-			  }).then(function(response){
-				  if(response.status !== 200){
-					  alert("Upload error");
-					  return;
-				  }
-				  console.log(response.status);
-				  return response.json();
-			  })
-			  .then(function(myJson){
-				  console.log(myJson);
-				  location.reload();
-			  })
-			 //location.reload();
-		}
-	}
-	
-	function clear(){
-		console.log("logout user");
-		localStorage.clear();
-	}
-
 	function goHome(){
 		console.log(this.innerHTML);
 		var res = this.innerHTML.split(":");
 		var n = res[0].substring(0,res[0].length-1);
 		console.log(n);
-		console.log(username);
-		if(n == username){
-		  console.log("yourself");
+		console.log(guest);
+		if(n == guest){
+		  console.log("already here");
 		  return;
+		}
+		else if(n == username){
+			console.log("yourself");
+			window.location='/homepage?username=' + username + '&token=' +token;
 		}
 		else{
 			window.location='/profile?name=' + n + '&token=' + token;
@@ -528,10 +471,9 @@
 		
 	}
 	
-	function setting(){
-		console.log("setting request");
-		 window.location = '/setting?username=' + username + '&token=' + token;
+	function clear(){
+		console.log("logout user");
+		localStorage.clear();
 	}
 
 }());
-

@@ -13,14 +13,13 @@
 	var token = obj['token'][0];
 	var home = "http://localhost:8080/page?username=" + username + "&token=" + token; 
 	var profilePage = "http://localhost:8080/homepage?username=" + username + "&token=" + token; 
-	
+
 	document.getElementById("home").setAttribute("href",home);
 	document.getElementById("user").innerHTML = username;
 	document.getElementById("user").setAttribute("href",profilePage);
 	document.getElementById("logout").addEventListener("click",clear);
-	document.getElementById("tab-1").addEventListener("click",Cpassword);
-	document.getElementById('tab-2').addEventListener("click",Cusername);
-	document.getElementById('tab-3').addEventListener("click",Cemail);
+	document.getElementById("submit1").onclick = function(){Change()};
+
 	
 	function parseURLParams(url) {
 		var queryStart = url.indexOf("?") + 1,
@@ -42,36 +41,46 @@
 		return parms;
 	}
 	
-	function Cpassword(){
-		console.log("changing password");
-		document.getElementById('Cpassword').style.display="block";
-		document.getElementById('tab-1').setAttribute("class","nav-link active");
-		document.getElementById('Cusername').style.display="none";
-		document.getElementById('tab-2').setAttribute("class","nav-link");
-		document.getElementById('Cemail').style.display="none";
-		document.getElementById('tab-3').setAttribute("class","nav-link");
-		
-		var 
-	}
+
+
 	
-	function Cusername(){
-		console.log("changing username");
-		document.getElementById('Cpassword').style.display="none";
-		document.getElementById('tab-1').setAttribute("class","nav-link");
-		document.getElementById('Cusername').style.display="block";
-		document.getElementById('tab-2').setAttribute("class","nav-link active");
-		document.getElementById('Cemail').style.display="none";
-		document.getElementById('tab-3').setAttribute("class","nav-link");
-	}
-	
-	function Cemail(){
-		console.log("changing email");
-		document.getElementById('Cpassword').style.display="none";
-		document.getElementById('tab-1').setAttribute("class","nav-link");
-		document.getElementById('Cusername').style.display="none";
-		document.getElementById('tab-2').setAttribute("class","nav-link");
-		document.getElementById('Cemail').style.display="block";
-		document.getElementById('tab-3').setAttribute("class","nav-link active");
+	function Change(){
+        var password = document.getElementById("password1").value;
+		var email = document.getElementById("email").value;
+        var name = document.getElementById("name").value;
+		console.log(password);
+		console.log(name);
+		console.log(email);
+		if (password != "" && email != "" && name != ""){
+			const user = {
+				"email": email,
+				"name": username,
+				"password": password
+			}
+			fetch('http://localhost:5000/user/', {
+				method: 'PUT',
+				headers: {
+				 'Authorization':'Token ' + token,
+				  'Accept': 'application/json',
+				  'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(user)
+			  }).then(function(response){
+				  console.log(response.status);
+				  if(response.status === 200){
+					 alert("Detail changes,please login again");
+					 window.location = '/';
+				  }
+				  else{
+					  alert("Could not change your details");
+					  location.reload();
+				  }
+			  })	
+		}
+		else{
+			alert("Please fill out all details");
+			return;
+		}
 	}
 	
 	function clear(){

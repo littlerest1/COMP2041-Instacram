@@ -140,6 +140,7 @@
 			var para = document.createElement("h1");
 			para.setAttribute("style","font-family: 'Lobster', cursive; color:#FF6347;font-size:32px;");
 			var node = document.createTextNode(js['posts'][i]['meta']['author']);
+			para.addEventListener("click",goHome);
 			para.appendChild(node);
 			CurrentE.appendChild(para);
 			
@@ -285,6 +286,7 @@
 						var current = string.slice(0, 21);
 						var author = document.createElement("p");
 						author.setAttribute("style","margin-bottom:0;font-size:13px;");
+						author.addEventListener("click",goHome);
 						var says =  document.createTextNode(comments[j]['author'] + " : "+ comments[j]['comment'] + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0(" + current + ")");
 						author.appendChild(says);
 						document.getElementById(contentid).appendChild(author);
@@ -295,6 +297,7 @@
 						var current = string.slice(0, 21);
 						var author = document.createElement("p");
 						author.setAttribute("style","margin-bottom:0;font-size:13px;");
+						author.addEventListener("click",goHome);
 						var says =  document.createTextNode(comments[j]['author'] + " : "+ comments[j]['comment'] + "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0(" + current + ")");
 						author.appendChild(says);
 						CurrentS.appendChild(author);
@@ -519,6 +522,27 @@
 			console.log("block");
 			document.getElementById(likeList).style.display = "none";
 		}
+	}
+	
+	function goHome(){
+		console.log(this.innerHTML);
+		var n;
+		if(this.innerHTML.includes(":")){
+			var res = this.innerHTML.split(":");
+			n = res[0].substring(0,res[0].length-1);
+			console.log(n+',');
+			console.log(username+',');
+		}
+		else{
+			n = this.innerHTML;
+		}
+		if(n == username){
+		  window.location='/homepage?username=' + username + '&token=' + token;
+		}
+		else{
+			window.location='/profile?name=' + n + '&token=' + token;
+		}
+		
 	}
 	
 	function clear(){

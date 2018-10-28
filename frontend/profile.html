@@ -48,38 +48,41 @@ img.avatar {
 <body>
     <!-- This is an example app structure --> 
     <header class='banner'>
-        <h1 style="font-family: 'Lobster', cursive; color:#DC143C">Instacram Settings</h1>
+        <h1 style="font-family: 'Lobster', cursive; color:#DC143C">Instacram</h1>
         <ul class='nav'>
             <li class="nav-item" style="display:none;"><input type="file"/></li>
 				<a href="#" style="font-family: 'Lobster', cursive;color:#DC143C;font-weight:bold;margin-right:10px;font-size:20px;"id="home">Home</a>
 				<a href="#" style="font-family: 'Lobster', cursive;color:#DC143C;font-weight:bold;margin-right:10px;font-size:20px;" id="user"></a>
 				<a href="/" style="font-family: 'Lobster', cursive;color:#DC143C;font-weight:bold;margin-right:10px;font-size:20px;" id="logout">Log out</a>
         </ul>
-		
     </header>
     <main role='main'>
         <div id='large-feed'>
-			<div class="container" style="width:80%">
-			 <ul class="nav nav-tabs">
-			   <li class="nav-item">
-				 <a id="tab-1" class="nav-link active" style="font-family: 'Lobster', cursive; color:#DC143C">Change Personal Details</a>
-			   </li>
-         </ul>
-		  <div id="Cpassword"> 
-            <form id="form_change" method="post" name="change" >
-                <label for="Name"><b>Name</b></label>
-			    <input type="name" placeholder="Enter name"id="name" name="name" required></br>    
-                <label for="Password"><b>Password </b></label> 
-                <input type="password" placeholder="Enter Password" id="password1" name="Password1" required></br>
-                <label for="email"><b>Email </b></label> 
-                <input type="email" placeholder="Enter Email" id="email" name="Email" required></br>
-                 <input class="button" type="button" id="submit1" type="submit" value="Submit">
-                 <p><font color="red" size="3px" font-weight="bold" style="display:none;" id="errorU">Username taken</font></p>
-            </form>
-		  </div>
-		  </div>
+           <ul>
+				<!--	<img src="images/user.png" class="avatar" alt="user" style="vertical-align:text-top;align:left;">-->
+					<!--<img src="images/user.png" class="avatar" alt="user" style="vertical-align:text-top;display:block;align:left;">-->
+						<img style="position:absolute;margin-left:15%;margin-top:20px;border-radius: 50%;" src="images/user.jpg" width="15%" alt="user">
+							<img style="position:absolute;margin-top:20px;width:24px;height:24px;margin-left:75%" src="images/follower.png" width="15%" id="follow" alt="follow">
+						<pre>
+						<font style="font-family: 'Lobster', cursive;margin-left:15%;color:#DC143C;font-weight:bold;font-size:35px;" id="username"></font>
+						</pre>
+						
+						<pre>
+						<font style="font-family: 'Lobster', cursive;margin-left:5%;color:#DC143C;font-weight:bold;font-size:30px;" id="details"></font>
+					    </pre>
+			</ul>
         </div>
+		<hr />
+		<div>
+			<ul>
+			<div class="container" style="width:40%;">
+				<font style="font-family: 'Lobster', cursive;text-align: center;color:#FA8072;font-weight:bold;font-size:50px;display:none" id="warning">No post yet. Go to Create one !</font>
+				<div id="posts">
+				
+				</div>
+			</ul>
+		<div>
 	</main>
-	 <script type= 'text/javascript' src="src/setting.js"></script>
+	 <script type= 'text/javascript' src="src/profile.js"></script>
 </body>
 </html>
