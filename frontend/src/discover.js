@@ -1,17 +1,22 @@
 (function () {
+	/*
+	  Discover page script.no use at all. Just make sure the redirect url discover.html has corresponding 
+	  script.
+	*/
+
     'use strict';
 	var url = window.location.href;
     console.log(url);
-	console.log(localStorage.getItem("token"));
+	console.log(localStorage.getItem('token'));
 	var obj = parseURLParams(url);
 	console.log(obj['username'][0]);
-	console.log(localStorage.getItem("token"));
+	console.log(localStorage.getItem('token'));
 	
 	var username = obj['username'][0];
-	var token = localStorage.getItem("token");
-	document.getElementById("homepage").innerHTML = username;
-	document.getElementById("homepage").href = '/homepage?username=' + username + '&token=' + token;
-	document.getElementById("home").href = '/page?username=' + username + '&token=' + token;
+	var token = localStorage.getItem('token');
+	document.getElementById('homepage').innerHTML = username;
+	document.getElementById('homepage').href = '/homepage?username=' + username + '&token=' + token;
+	document.getElementById('home').href = '/page?username=' + username + '&token=' + token;
 	
 	function parseURLParams(url) {
 		var queryStart = url.indexOf("?") + 1,

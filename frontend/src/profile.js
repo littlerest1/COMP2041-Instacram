@@ -1,4 +1,8 @@
 (function () {
+	/**
+	 * for login user to access other user's profile page 
+	 * mainly the same as the homepage.js
+	 */
     'use strict';
 	Date.prototype.getUnixTime = function() { return this.getTime()/1000|0 };
 	if(!Date.now) Date.now = function() { return new Date(); }
@@ -11,8 +15,12 @@
 	console.log(obj['token'][0]);
 	console.log(obj['name'][0]);
 	console.log(localStorage.getItem("token"));
+	console.log(localStorage.getItem("userId"));
+	console.log(localStorage.getItem("following"));
 	
 	var guest = obj['name'][0];
+	var guestId;
+	var userId = localStorage.getItem("userId");
 	var username = localStorage.getItem("host");
 	var token = obj['token'][0];
 	var home = "http://localhost:8080/page?username=" + username + "&token=" + token; 
@@ -21,6 +29,7 @@
 	document.getElementById("user").innerHTML = username;
 	var links = '/homepage?username=' + username + '&token=' +token;
 	document.getElementById("user").setAttribute("href",links);
+	document.getElementById("follow").addEventListener("click",Follow);
 	document.getElementById("logout").addEventListener("click",clear);
 	GetPost(token);
 
@@ -61,8 +70,25 @@
 			  })
 			  .then(function(myJson){
 				  console.log(myJson);
-				  document.getElementById("details").innerHTML = "Posts:	"+ myJson['posts'].length + " 	Followers:	" + myJson['following'].length + " 	Followings:	" + myJson['followed_num'];
+				  document.getElementById("details").innerHTML = "Posts:	"+ myJson['posts'].length + " 	Followers:	" + myJson['followed_num'] + " 	Followings:	" + myJson['following'].length;
 				  var n = myJson['posts'].length;
+				  console.log("following list " + userId);
+				 /* for(var o = 0;o < myJson['following'].length;o ++){
+					  if(myJson['following'][o] == userId){
+						console.log("list contains");
+						document.getElementById("follow").src= "images/following.png";  
+						break;
+					  }
+				  }*/
+				  console.log(myJson['id']);
+				  console.log("following list");
+				  console.log(localStorage.getItem("following"));
+				  var array = localStorage.getItem('following');
+				  guestId = myJson['id'];
+				  if(localStorage.getItem('following').includes(myJson['id'])){
+					  	console.log("list contains");
+						document.getElementById("follow").src= "images/following.png";  
+				  }
 				  if(n == 0){
 					document.getElementById("warning").style.display = "block";
 				  }
@@ -109,7 +135,7 @@
 
 									var unlike = document.createElement("img");
 									var iconU = "";
-									if(json['meta']['likes'].includes(myJson['id'])){
+									if(json['meta']['likes'].includes(userId)){
 										iconU = "images/like.png";
 									}
 									else{
@@ -469,6 +495,85 @@
 			window.location='/profile?name=' + n + '&token=' + token;
 		}
 		
+	}
+	
+	function Follow(){
+		//console.log(username + " wants to follow " + guest);
+		if(document.getElementById(this.id).src === "http://localhost:8080/images/following.png"){
+			console.log("unfollowing");
+			
+			var url = "http://localhost:5000/user/unfollow?username=" + guest; 
+			fetch(url,{
+				method: 'PUT',
+				headers: new Headers({
+					'Authorization' : 'Token ' + token,
+					'Content-Type': 'application/x-www-form-urlencoded'
+				})
+				}).then(function(response){
+					console.log(response.status);
+					if(response.status == 200){
+						console.log("success");
+						document.getElementById("follow").src = "http://localhost:8080/images/follower.png";
+						
+						var array = localStorage.getItem("following");
+						console.log("before :" + array);
+						console.log(array.length);
+						
+						if(array.length == 1){
+							var temp = [];
+							localStorage.setItem("following",temp);
+							console.log(localStorage.getItem("following"));
+							alert("unfollowed");
+							location.reload();
+							return;
+						}
+						var flag = 0;
+						for(var i = 0; i < array.length;i ++){
+							if(array[i] == guestId){
+								console("index:"+i);
+								flag = i;
+								break;
+							}
+						}
+						for(var i = flag;i < array.length - 1;i ++){
+							array[i] = array[i+1];
+						}
+						console.log("after :" +array);
+						alert("unfollowed");
+						location.reload();
+					}
+				})
+		}
+		else{
+				console.log("following");
+			var url = "http://localhost:5000/user/follow?username=" + guest; 
+			fetch(url,{
+				method: 'PUT',
+				headers: new Headers({
+					'Authorization' : 'Token ' + token,
+					'Content-Type': 'application/x-www-form-urlencoded'
+				})
+				}).then(function(response){
+					console.log(response.status);
+					if(response.status == 200){
+						document.getElementById("follow").src = "http://localhost:8080/images/following.png";
+						
+						var array = localStorage.getItem("following");
+						console.log(array);
+						var fillter =[];
+						for(var i = 0;i < array.length;i ++){
+							fillter.push(array[i]);
+						}
+						fillter.push(guestId);
+						console.log(fillter);
+						localStorage.setItem("following",fillter);
+						console.log(localStorage.getItem("following"));
+						alert("following");
+						console.log("success");
+						location.reload();
+					}
+				})
+		}
 	}
 	
 	function clear(){

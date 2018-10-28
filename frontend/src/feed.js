@@ -1,4 +1,9 @@
 (function () {
+	/*
+	  feed.js for  index.html. Index page is for the unlog user 
+	  This page just show some instagram example from feed.json 
+	*/
+
     'use strict';
 	console.log("here");
 
@@ -12,7 +17,7 @@
 		console.log(json); 
 		var i = 0;
 		while(i < json.length){
-			var para = document.createElement("h1");
+			var para = document.createElement('h1');
 			para.setAttribute("style","font-family: 'Lobster', cursive; color:#FF6347;font-size:32px;");
 			var node = document.createTextNode(json[i]['meta']['author']);
 			para.appendChild(node);

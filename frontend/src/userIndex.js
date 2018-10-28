@@ -1,4 +1,7 @@
 (function () {
+	/**
+	 * Mainly the same as homepage.html,this page is fetch from user/feed
+	 */
     'use strict';
 	Date.prototype.getUnixTime = function() { return this.getTime()/1000|0 };
 	if(!Date.now) Date.now = function() { return new Date(); }
@@ -387,6 +390,10 @@
 				console.log(res[0]);
 				console.log("length of childenode");
 				console.log(l.childNodes.length);
+				if(res[0] === username){
+					console.log('delete first');
+					l.removeChild(l.childNodes[0]);
+				}
 				for(var u = 0;u < l.childNodes.length;u ++){
 					if(res[u] === username){
 						l.removeChild(l.childNodes[u]);
@@ -481,6 +488,9 @@
 		var likeList = "likeList"+post;
 		var l = document.getElementById(likeList);
 		var str = l.textContent;
+		if(str.length == 0){
+			return;
+		}
 		console.log(l.textContent);
 	    var res = str.split(",");
 		if(document.getElementById(likeList).style.display == "none"){

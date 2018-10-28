@@ -1,4 +1,7 @@
 (function () {
+	/**
+	 * setting page for user to edit their details 
+	 */
     'use strict';
 	var url = window.location.href;
     console.log(url);

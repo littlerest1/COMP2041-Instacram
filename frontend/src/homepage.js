@@ -1,4 +1,14 @@
 (function () {
+		/*
+	   homepage.js is for homepage.html is the profile page for current login user
+	   includes most of the functions in instacram. System will redirect to this page after login or sign up
+	   It fetch the user's information first then use the information fetch all the 
+	   posts under the user and corresponding message of the post(likes,comment..etc)
+	   Also,user can edit their personal detail by clicking on the setting icon.
+	   On the other hand,the plus icon in the bottom of the page is for user to create a post via upload picture
+	   and descriptions.
+	   User can logout,to index page by click on the links on the right top of the page
+	*/
     'use strict';
 	Date.prototype.getUnixTime = function() { return this.getTime()/1000|0 };
 	if(!Date.now) Date.now = function() { return new Date(); }
@@ -6,15 +16,15 @@
 	
 	var url = window.location.href;
     console.log(url);
-	console.log(localStorage.getItem("token"));
+	console.log(localStorage.getItem('token'));
 	var obj = parseURLParams(url);
 	console.log(obj['token'][0]);
 	console.log(obj['username'][0]);
-	console.log(localStorage.getItem("token"));
+	console.log(localStorage.getItem('token'));
 	
 	var username = obj['username'][0];
 	var token = obj['token'][0];
-	var home = "http://localhost:8080/page?username=" + username + "&token=" + token; 
+	var home = 'http://localhost:8080/page?username=' + username + '&token=' + token; 
 	document.getElementById("home").setAttribute("href",home);
 	document.getElementById("setting").addEventListener("click",setting);
 	document.getElementById("username").innerHTML = username;
@@ -63,8 +73,10 @@
 			  })
 			  .then(function(myJson){
 				  console.log(myJson);
-				  document.getElementById("details").innerHTML = "Posts:	"+ myJson['posts'].length + " 	Followers:	" + myJson['following'].length + " 	Followings:	" + myJson['followed_num'];
+				  document.getElementById("details").innerHTML = "Posts:	"+ myJson['posts'].length + " 	Followers:	" + myJson['followed_num'] + " 	Followings:	" + myJson['following'].length;
 				  var n = myJson['posts'].length;
+				  localStorage.setItem("userId",myJson['id']);
+				  localStorage.setItem("following",myJson['following']);
 				  if(n == 0){
 					document.getElementById("warning").style.display = "block";
 				  }

@@ -1,4 +1,7 @@
 (function () {
+	/*
+	  Login.js for login.html. Implement the login and sign up function.
+	*/
     'use strict';
     document.getElementById("toLogin").onclick = function() {myFunction()};
     document.getElementById("toSignup").onclick = function() {myFunction()};
